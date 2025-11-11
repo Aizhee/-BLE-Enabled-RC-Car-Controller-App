@@ -7,35 +7,29 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-import 'package:flutter_blue_plus/flutter_blue_plus.dart' as ble;
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart' as bt;
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 Future<bool> isBluetoothEnabled() async {
-  bool bleEnabled = false;
-  bool btEnabled = false;
-
-  // -----------------------------
-  // Check BLE
-  // -----------------------------
-  if (await ble.FlutterBluePlus.isSupported) {
-    ble.BluetoothAdapterState state =
-        await ble.FlutterBluePlus.adapterState.first;
-    if (state == ble.BluetoothAdapterState.on) {
-      bleEnabled = true;
+  await Future.delayed(const Duration(milliseconds: 100));
+  if (await FlutterBluePlus.isSupported == false) {
+    print("Bluetooth not supported by this device");
+    return false;
+  }
+  bool returnme = false;
+  var subscription =
+      FlutterBluePlus.adapterState.listen((BluetoothAdapterState state) {
+    print(state);
+    if (state == BluetoothAdapterState.on) {
+      // usually start scanning, connecting, etc
+      returnme = true;
+    } else {
+      // show an error to the user, etc
+      returnme = false;
     }
-  } else {
-    debugPrint("BLE not supported by this device");
-  }
+  });
+  await Future.delayed(const Duration(milliseconds: 100));
 
-  // -----------------------------
-  // Check BT2.0
-  // -----------------------------
-  try {
-    btEnabled = await bt.FlutterBluetoothSerial.instance.isEnabled ?? false;
-  } catch (e) {
-    debugPrint("BT2.0 check failed: $e");
-  }
+  subscription.cancel();
 
-  // Return true if either BLE or BT2.0 is enabled
-  return bleEnabled || btEnabled;
+  return returnme;
 }
