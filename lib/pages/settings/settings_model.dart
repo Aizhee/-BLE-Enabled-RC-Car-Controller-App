@@ -94,11 +94,15 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
   FocusNode? textFieldFocusNode20;
   TextEditingController? textController20;
   String? Function(BuildContext, String?)? textController20Validator;
-  // Stores action output result for [Custom Action - updateStringList8] action in Button widget.
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode21;
+  TextEditingController? textController21;
+  String? Function(BuildContext, String?)? textController21Validator;
+  // Stores action output result for [Custom Action - updateStringList9] action in Button widget.
   List<String>? joystick;
-  // Stores action output result for [Custom Action - updateStringList8] action in Button widget.
+  // Stores action output result for [Custom Action - updateStringList9] action in Button widget.
   List<String>? buttons;
-  // Stores action output result for [Custom Action - updateStringList8] action in Button widget.
+  // Stores action output result for [Custom Action - updateStringList9] action in Button widget.
   List<String>? startbits;
   // Stores action output result for [Custom Action - updateIntList4] action in Button widget.
   List<int>? slidervalues;
@@ -167,5 +171,8 @@ class SettingsModel extends FlutterFlowModel<SettingsWidget> {
 
     textFieldFocusNode20?.dispose();
     textController20?.dispose();
+
+    textFieldFocusNode21?.dispose();
+    textController21?.dispose();
   }
 }

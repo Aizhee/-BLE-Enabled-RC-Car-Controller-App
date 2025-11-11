@@ -246,17 +246,26 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
                       child: Container(
-                        width: 350.0,
-                        height: 350.0,
+                        width: 300.0,
+                        height: 300.0,
                         child: custom_widgets.Joystick(
-                          width: 350.0,
-                          height: 350.0,
-                          size: 200.0,
-                          device: BTDeviceStruct(),
+                          width: 300.0,
+                          height: 300.0,
+                          size: 300.0,
+                          device: BTDeviceStruct(
+                            name: widget!.deviceName,
+                            id: widget!.deviceId,
+                            rssi: _model.currentRssi,
+                          ),
+                          joystickMap: FFAppState().joystickmap,
                           onMove: (command) async {
                             await actions.sendData(
-                              BTDeviceStruct(),
-                              command!,
+                              BTDeviceStruct(
+                                name: widget!.deviceName,
+                                id: widget!.deviceId,
+                                rssi: _model.currentRssi,
+                              ),
+                              command,
                             );
                           },
                         ),
@@ -273,7 +282,11 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                         FFButtonWidget(
                           onPressed: () async {
                             await actions.sendData(
-                              BTDeviceStruct(),
+                              BTDeviceStruct(
+                                name: widget!.deviceName,
+                                id: widget!.deviceId,
+                                rssi: _model.currentRssi,
+                              ),
                               FFAppState().buttons.elementAtOrNull(0)!,
                             );
                           },
@@ -313,7 +326,11 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                         FFButtonWidget(
                           onPressed: () async {
                             await actions.sendData(
-                              BTDeviceStruct(),
+                              BTDeviceStruct(
+                                name: widget!.deviceName,
+                                id: widget!.deviceId,
+                                rssi: _model.currentRssi,
+                              ),
                               FFAppState().buttons.elementAtOrNull(1)!,
                             );
                           },
@@ -353,7 +370,11 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                         FFButtonWidget(
                           onPressed: () async {
                             await actions.sendData(
-                              BTDeviceStruct(),
+                              BTDeviceStruct(
+                                name: widget!.deviceName,
+                                id: widget!.deviceId,
+                                rssi: _model.currentRssi,
+                              ),
                               FFAppState().buttons.elementAtOrNull(2)!,
                             );
                           },
@@ -393,7 +414,11 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                         FFButtonWidget(
                           onPressed: () async {
                             await actions.sendData(
-                              BTDeviceStruct(),
+                              BTDeviceStruct(
+                                name: widget!.deviceName,
+                                id: widget!.deviceId,
+                                rssi: _model.currentRssi,
+                              ),
                               FFAppState().buttons.elementAtOrNull(3)!,
                             );
                           },
@@ -493,7 +518,11 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                           newValue = double.parse(newValue.toStringAsFixed(2));
                           safeSetState(() => _model.sliderValue1 = newValue);
                           await actions.sendData(
-                            BTDeviceStruct(),
+                            BTDeviceStruct(
+                              name: widget!.deviceName,
+                              id: widget!.deviceId,
+                              rssi: _model.currentRssi,
+                            ),
                             '${FFAppState().slidersbits.elementAtOrNull(0)}${formatNumber(
                               _model.sliderValue1,
                               formatType: FormatType.custom,
@@ -563,7 +592,11 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                           newValue = double.parse(newValue.toStringAsFixed(2));
                           safeSetState(() => _model.sliderValue2 = newValue);
                           await actions.sendData(
-                            BTDeviceStruct(),
+                            BTDeviceStruct(
+                              name: widget!.deviceName,
+                              id: widget!.deviceId,
+                              rssi: _model.currentRssi,
+                            ),
                             '${FFAppState().slidersbits.elementAtOrNull(2)}${formatNumber(
                               _model.sliderValue1,
                               formatType: FormatType.custom,
@@ -747,7 +780,7 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                                                   .fontStyle,
                                         ),
                                   ),
-                                  duration: Duration(milliseconds: 2000),
+                                  duration: Duration(milliseconds: 900),
                                   backgroundColor:
                                       FlutterFlowTheme.of(context).success,
                                 ),

@@ -64,53 +64,57 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         text: FFAppState().joystickmap.elementAtOrNull(7));
     _model.textFieldFocusNode8 ??= FocusNode();
 
-    _model.textController9 ??=
-        TextEditingController(text: FFAppState().buttons.elementAtOrNull(0));
+    _model.textController9 ??= TextEditingController(
+        text: FFAppState().joystickmap.elementAtOrNull(8));
     _model.textFieldFocusNode9 ??= FocusNode();
 
     _model.textController10 ??=
-        TextEditingController(text: FFAppState().buttons.elementAtOrNull(1));
+        TextEditingController(text: FFAppState().buttons.elementAtOrNull(0));
     _model.textFieldFocusNode10 ??= FocusNode();
 
     _model.textController11 ??=
-        TextEditingController(text: FFAppState().buttons.elementAtOrNull(2));
+        TextEditingController(text: FFAppState().buttons.elementAtOrNull(1));
     _model.textFieldFocusNode11 ??= FocusNode();
 
     _model.textController12 ??=
-        TextEditingController(text: FFAppState().buttons.elementAtOrNull(3));
+        TextEditingController(text: FFAppState().buttons.elementAtOrNull(2));
     _model.textFieldFocusNode12 ??= FocusNode();
 
-    _model.textController13 ??= TextEditingController(
-        text: FFAppState().slidersbits.elementAtOrNull(0));
+    _model.textController13 ??=
+        TextEditingController(text: FFAppState().buttons.elementAtOrNull(3));
     _model.textFieldFocusNode13 ??= FocusNode();
 
     _model.textController14 ??= TextEditingController(
-        text: FFAppState().slidersbits.elementAtOrNull(1));
+        text: FFAppState().slidersbits.elementAtOrNull(0));
     _model.textFieldFocusNode14 ??= FocusNode();
 
     _model.textController15 ??= TextEditingController(
-        text: FFAppState().slidervals.elementAtOrNull(0)?.toString());
+        text: FFAppState().slidersbits.elementAtOrNull(1));
     _model.textFieldFocusNode15 ??= FocusNode();
 
     _model.textController16 ??= TextEditingController(
-        text: FFAppState().slidervals.elementAtOrNull(1)?.toString());
+        text: FFAppState().slidervals.elementAtOrNull(0)?.toString());
     _model.textFieldFocusNode16 ??= FocusNode();
 
     _model.textController17 ??= TextEditingController(
-        text: FFAppState().slidersbits.elementAtOrNull(2));
+        text: FFAppState().slidervals.elementAtOrNull(1)?.toString());
     _model.textFieldFocusNode17 ??= FocusNode();
 
     _model.textController18 ??= TextEditingController(
-        text: FFAppState().slidersbits.elementAtOrNull(3));
+        text: FFAppState().slidersbits.elementAtOrNull(2));
     _model.textFieldFocusNode18 ??= FocusNode();
 
     _model.textController19 ??= TextEditingController(
-        text: FFAppState().slidervals.elementAtOrNull(2)?.toString());
+        text: FFAppState().slidersbits.elementAtOrNull(3));
     _model.textFieldFocusNode19 ??= FocusNode();
 
     _model.textController20 ??= TextEditingController(
-        text: FFAppState().slidervals.elementAtOrNull(3)?.toString());
+        text: FFAppState().slidervals.elementAtOrNull(2)?.toString());
     _model.textFieldFocusNode20 ??= FocusNode();
+
+    _model.textController21 ??= TextEditingController(
+        text: FFAppState().slidervals.elementAtOrNull(3)?.toString());
+    _model.textFieldFocusNode21 ??= FocusNode();
   }
 
   @override
@@ -146,7 +150,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              context.safePop();
+              safeSetState(() {});
             },
           ),
           title: Text(
@@ -795,7 +800,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'UPPER RIGHT',
+                                      labelText: 'UPPER LEFT',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -935,7 +940,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'UPPER LEFT',
+                                      labelText: 'UPPER RIGHT',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -1080,7 +1085,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'LOWER RIGHT',
+                                      labelText: 'LOWER LEFT',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -1220,7 +1225,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'LOWER LEFT',
+                                      labelText: 'LOWER RIGHT',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -1348,33 +1353,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             ),
                           ],
                         ),
-                        Divider(
-                          thickness: 2.0,
-                          color: FlutterFlowTheme.of(context).alternate,
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 10.0, 0.0, 10.0),
-                          child: Text(
-                            'Buttons',
-                            style: FlutterFlowTheme.of(context)
-                                .displayMedium
-                                .override(
-                                  font: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w600,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .displayMedium
-                                        .fontStyle,
-                                  ),
-                                  fontSize: 20.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.w600,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .displayMedium
-                                      .fontStyle,
-                                ),
-                          ),
-                        ),
                         Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -1392,7 +1370,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'B1',
+                                      labelText: 'STOP',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -1503,7 +1481,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                         ),
                                     maxLength: 1,
                                     maxLengthEnforcement:
-                                        MaxLengthEnforcement.none,
+                                        MaxLengthEnforcement.enforced,
                                     buildCounter: (context,
                                             {required currentLength,
                                             required isFocused,
@@ -1518,6 +1496,38 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                               ),
                             ),
+                          ],
+                        ),
+                        Divider(
+                          thickness: 2.0,
+                          color: FlutterFlowTheme.of(context).alternate,
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 10.0, 0.0, 10.0),
+                          child: Text(
+                            'Buttons',
+                            style: FlutterFlowTheme.of(context)
+                                .displayMedium
+                                .override(
+                                  font: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .displayMedium
+                                        .fontStyle,
+                                  ),
+                                  fontSize: 20.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.w600,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .displayMedium
+                                      .fontStyle,
+                                ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
                             Expanded(
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -1532,7 +1542,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'B2',
+                                      labelText: 'B1',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -1672,7 +1682,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'B3',
+                                      labelText: 'B2',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -1812,7 +1822,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'B4',
+                                      labelText: 'B3',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -1938,6 +1948,146 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                               ),
                             ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    5.0, 5.0, 5.0, 5.0),
+                                child: Container(
+                                  width: 200.0,
+                                  child: TextFormField(
+                                    controller: _model.textController13,
+                                    focusNode: _model.textFieldFocusNode13,
+                                    autofocus: false,
+                                    enabled: true,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      labelText: 'B4',
+                                      labelStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .override(
+                                            font: GoogleFonts.montserrat(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                      hintText: 'TextField',
+                                      hintStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .override(
+                                            font: GoogleFonts.montserrat(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .error,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .error,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      filled: true,
+                                      fillColor: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.montserrat(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                    maxLength: 1,
+                                    maxLengthEnforcement:
+                                        MaxLengthEnforcement.none,
+                                    buildCounter: (context,
+                                            {required currentLength,
+                                            required isFocused,
+                                            maxLength}) =>
+                                        null,
+                                    cursorColor: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    enableInteractiveSelection: true,
+                                    validator: _model.textController13Validator
+                                        .asValidator(context),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                         Divider(
@@ -1977,8 +2127,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 child: Container(
                                   width: 200.0,
                                   child: TextFormField(
-                                    controller: _model.textController13,
-                                    focusNode: _model.textFieldFocusNode13,
+                                    controller: _model.textController14,
+                                    focusNode: _model.textFieldFocusNode14,
                                     autofocus: false,
                                     enabled: true,
                                     obscureText: false,
@@ -2105,7 +2255,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     cursorColor: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     enableInteractiveSelection: true,
-                                    validator: _model.textController13Validator
+                                    validator: _model.textController14Validator
                                         .asValidator(context),
                                   ),
                                 ),
@@ -2118,8 +2268,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 child: Container(
                                   width: 200.0,
                                   child: TextFormField(
-                                    controller: _model.textController14,
-                                    focusNode: _model.textFieldFocusNode14,
+                                    controller: _model.textController15,
+                                    focusNode: _model.textFieldFocusNode15,
                                     autofocus: false,
                                     enabled: true,
                                     obscureText: false,
@@ -2245,7 +2395,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     cursorColor: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     enableInteractiveSelection: true,
-                                    validator: _model.textController14Validator
+                                    validator: _model.textController15Validator
                                         .asValidator(context),
                                   ),
                                 ),
@@ -2258,8 +2408,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 child: Container(
                                   width: 200.0,
                                   child: TextFormField(
-                                    controller: _model.textController15,
-                                    focusNode: _model.textFieldFocusNode15,
+                                    controller: _model.textController16,
+                                    focusNode: _model.textFieldFocusNode16,
                                     autofocus: false,
                                     enabled: true,
                                     obscureText: false,
@@ -2378,7 +2528,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     cursorColor: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     enableInteractiveSelection: true,
-                                    validator: _model.textController15Validator
+                                    validator: _model.textController16Validator
                                         .asValidator(context),
                                   ),
                                 ),
@@ -2391,8 +2541,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 child: Container(
                                   width: 200.0,
                                   child: TextFormField(
-                                    controller: _model.textController16,
-                                    focusNode: _model.textFieldFocusNode16,
+                                    controller: _model.textController17,
+                                    focusNode: _model.textFieldFocusNode17,
                                     autofocus: false,
                                     enabled: true,
                                     obscureText: false,
@@ -2511,7 +2661,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     cursorColor: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     enableInteractiveSelection: true,
-                                    validator: _model.textController16Validator
+                                    validator: _model.textController17Validator
                                         .asValidator(context),
                                   ),
                                 ),
@@ -2529,146 +2679,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 child: Container(
                                   width: 200.0,
                                   child: TextFormField(
-                                    controller: _model.textController17,
-                                    focusNode: _model.textFieldFocusNode17,
-                                    autofocus: false,
-                                    enabled: true,
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      labelText: 'S2 START',
-                                      labelStyle: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .override(
-                                            font: GoogleFonts.montserrat(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontStyle,
-                                            ),
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontStyle,
-                                          ),
-                                      hintText: 'TextField',
-                                      hintStyle: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .override(
-                                            font: GoogleFonts.montserrat(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontStyle,
-                                            ),
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontStyle,
-                                          ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0x00000000),
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .error,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .error,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      filled: true,
-                                      fillColor: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                    ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.montserrat(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                    maxLength: 1,
-                                    maxLengthEnforcement:
-                                        MaxLengthEnforcement.enforced,
-                                    buildCounter: (context,
-                                            {required currentLength,
-                                            required isFocused,
-                                            maxLength}) =>
-                                        null,
-                                    cursorColor: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                    enableInteractiveSelection: true,
-                                    validator: _model.textController17Validator
-                                        .asValidator(context),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    5.0, 5.0, 5.0, 5.0),
-                                child: Container(
-                                  width: 200.0,
-                                  child: TextFormField(
                                     controller: _model.textController18,
                                     focusNode: _model.textFieldFocusNode18,
                                     autofocus: false,
@@ -2676,7 +2686,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'S2 END',
+                                      labelText: 'S2 START',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -2816,7 +2826,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'S2 MIN',
+                                      labelText: 'S2 END',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -2925,7 +2935,14 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                                   .bodyMedium
                                                   .fontStyle,
                                         ),
-                                    keyboardType: TextInputType.number,
+                                    maxLength: 1,
+                                    maxLengthEnforcement:
+                                        MaxLengthEnforcement.enforced,
+                                    buildCounter: (context,
+                                            {required currentLength,
+                                            required isFocused,
+                                            maxLength}) =>
+                                        null,
                                     cursorColor: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     enableInteractiveSelection: true,
@@ -2949,7 +2966,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'S2 MAX',
+                                      labelText: 'S2 MIN',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
@@ -3068,6 +3085,139 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 ),
                               ),
                             ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    5.0, 5.0, 5.0, 5.0),
+                                child: Container(
+                                  width: 200.0,
+                                  child: TextFormField(
+                                    controller: _model.textController21,
+                                    focusNode: _model.textFieldFocusNode21,
+                                    autofocus: false,
+                                    enabled: true,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      labelText: 'S2 MAX',
+                                      labelStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .override(
+                                            font: GoogleFonts.montserrat(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                      hintText: 'TextField',
+                                      hintStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .override(
+                                            font: GoogleFonts.montserrat(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .error,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .error,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      filled: true,
+                                      fillColor: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.montserrat(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                    keyboardType: TextInputType.number,
+                                    cursorColor: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    enableInteractiveSelection: true,
+                                    validator: _model.textController21Validator
+                                        .asValidator(context),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                         Padding(
@@ -3075,7 +3225,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                               0.0, 20.0, 0.0, 0.0),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              _model.joystick = await actions.updateStringList8(
+                              _model.joystick = await actions.updateStringList9(
                                 FFAppState().joystickmap.toList(),
                                 _model.textController1.text,
                                 _model.textController2.text,
@@ -3085,25 +3235,28 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 _model.textController6.text,
                                 _model.textController7.text,
                                 _model.textController8.text,
+                                FFAppState().joystickmap.lastOrNull,
                               );
-                              _model.buttons = await actions.updateStringList8(
+                              _model.buttons = await actions.updateStringList9(
                                 FFAppState().buttons.toList(),
-                                _model.textController9.text,
                                 _model.textController10.text,
                                 _model.textController11.text,
                                 _model.textController12.text,
+                                _model.textController13.text,
+                                '',
                                 '',
                                 '',
                                 '',
                                 '',
                               );
                               _model.startbits =
-                                  await actions.updateStringList8(
+                                  await actions.updateStringList9(
                                 FFAppState().slidersbits.toList(),
-                                _model.textController13.text,
                                 _model.textController14.text,
-                                _model.textController17.text,
+                                _model.textController15.text,
                                 _model.textController18.text,
+                                _model.textController19.text,
+                                '',
                                 '',
                                 '',
                                 '',
@@ -3112,10 +3265,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                               _model.slidervalues =
                                   await actions.updateIntList4(
                                 FFAppState().slidervals.toList(),
-                                int.tryParse(_model.textController15.text),
                                 int.tryParse(_model.textController16.text),
-                                int.tryParse(_model.textController19.text),
+                                int.tryParse(_model.textController17.text),
                                 int.tryParse(_model.textController20.text),
+                                int.tryParse(_model.textController21.text),
                               );
                               FFAppState().joystickmap =
                                   _model.joystick!.toList().cast<String>();

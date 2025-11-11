@@ -7,17 +7,17 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future<List<String>> updateStringList8(
-  List<String> inputList,
-  String? field1,
-  String? field2,
-  String? field3,
-  String? field4,
-  String? field5,
-  String? field6,
-  String? field7,
-  String? field8,
-) async {
+Future<List<String>> updateStringList9(
+    List<String> inputList,
+    String? field1,
+    String? field2,
+    String? field3,
+    String? field4,
+    String? field5,
+    String? field6,
+    String? field7,
+    String? field8,
+    String? field9) async {
   // Make a copy of the list so we can modify it
   List<String> newList = List.from(inputList);
 
@@ -30,7 +30,8 @@ Future<List<String>> updateStringList8(
     field5,
     field6,
     field7,
-    field8
+    field8,
+    field9
   ];
 
   for (int i = 0; i < fields.length; i++) {

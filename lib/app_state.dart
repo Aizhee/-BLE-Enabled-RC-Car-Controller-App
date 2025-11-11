@@ -42,7 +42,7 @@ class FFAppState extends ChangeNotifier {
   late SharedPreferences prefs;
 
   /// mapped values for joystick
-  List<String> _joystickmap = ['F', 'B', 'R', 'L', 'Q', 'E', 'Z', 'C'];
+  List<String> _joystickmap = ['F', 'B', 'R', 'L', 'Q', 'E', 'Z', 'C', 'S'];
   List<String> get joystickmap => _joystickmap;
   set joystickmap(List<String> value) {
     _joystickmap = value;

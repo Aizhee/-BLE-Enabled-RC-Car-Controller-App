@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-// Note: You must add the dependency 'flutter_joystick: ^0.0.3' in pubspec.yaml
 import 'package:flutter_joystick/flutter_joystick.dart' as Joysticks;
 
 class Joystick extends StatefulWidget {
@@ -16,25 +15,32 @@ class Joystick extends StatefulWidget {
     Key? key,
     this.width,
     this.height,
-    this.size = 100,
-    this.device, // Your device parameter
-    this.onMove, // ---- ADD THIS PARAMETER ----
+    this.size = 300,
+    this.device,
+    this.onMove,
+    this.joystickMap,
   }) : super(key: key);
 
   final double? width;
   final double? height;
   final double size;
   final BTDeviceStruct? device;
-
-  // Define the Action parameter. It will pass a String (the command).
   final Future<dynamic> Function(String)? onMove;
+  final List<String>? joystickMap;
 
   @override
   _JoystickState createState() => _JoystickState();
 }
 
 class _JoystickState extends State<Joystick> {
-  String _lastCommand = ''; // Add this to prevent spamming
+  // Helper function to safely get commands from the map
+  String _getCommand(int index) {
+    // Checks if the map is valid and long enough
+    if (widget.joystickMap != null && widget.joystickMap!.length > index) {
+      return widget.joystickMap![index];
+    }
+    return ""; // Return empty string if map isn't set up
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +50,7 @@ class _JoystickState extends State<Joystick> {
       alignment: Alignment.center,
       child: Joysticks.Joystick(
         base: Joysticks.JoystickBase(
+          size: 300,
           decoration: Joysticks.JoystickBaseDecoration(
             color: Colors.black,
             drawOuterCircle: false,
@@ -52,44 +59,48 @@ class _JoystickState extends State<Joystick> {
             color: Colors.blue,
           ),
         ),
-        // ---- THIS LISTENER IS MODIFIED ----
-        listener: (details) {
-          if (widget.device == null) return;
 
-          String command = '';
+        // ---- LISTENER LOGIC UPDATED TO MATCH YOUR MAP ----
+        listener: (details) {
+          if (widget.device == null || widget.onMove == null) return;
+
           final x = details.x;
           final y = details.y;
+          String finalCommand = "";
+
+          // Your map: F,B,R,L,Q,E,Z,C,S
+          // This logic now matches that order.
 
           // Main directions
           if (x.abs() < 0.3 && y < -0.3) {
-            command = 'F';
+            finalCommand = _getCommand(0); // F (Forward)
           } else if (x.abs() < 0.3 && y > 0.3) {
-            command = 'B';
-          } else if (x < -0.3 && y.abs() < 0.3) {
-            command = 'L';
+            finalCommand = _getCommand(1); // B (Backward)
           } else if (x > 0.3 && y.abs() < 0.3) {
-            command = 'R';
+            finalCommand = _getCommand(2); // R (Right)
+          } else if (x < -0.3 && y.abs() < 0.3) {
+            finalCommand = _getCommand(3); // L (Left)
           }
           // Diagonal directions
           else if (x < -0.3 && y < -0.3) {
-            command = 'Q';
+            finalCommand = _getCommand(4); // Q (Forward-Left)
           } else if (x > 0.3 && y < -0.3) {
-            command = 'E';
+            finalCommand = _getCommand(5); // E (Forward-Right)
           } else if (x < -0.3 && y > 0.3) {
-            command = 'Z';
+            finalCommand = _getCommand(6); // Z (Backward-Left)
           } else if (x > 0.3 && y > 0.3) {
-            command = 'C';
+            finalCommand = _getCommand(7); // C (Backward-Right)
+          }
+          // ---- "STOP" COMMAND ADDED BACK ----
+          else {
+            // This is the centered/deadzone position
+            finalCommand = _getCommand(8); // S (Stop)
           }
 
-          // If the command is new and not empty
-          if (command.isNotEmpty && command != _lastCommand) {
-            _lastCommand = command; // Save the last command
-
-            // Check if the 'onMove' action is assigned
-            if (widget.onMove != null) {
-              // Execute the action and pass the 'command' string
-              widget.onMove!(command);
-            }
+          // This sends the mapped command (e.g., "move_forward" or "stop_motor")
+          // or nothing if the command string in your map is empty.
+          if (finalCommand.isNotEmpty) {
+            widget.onMove!(finalCommand);
           }
         },
       ),
