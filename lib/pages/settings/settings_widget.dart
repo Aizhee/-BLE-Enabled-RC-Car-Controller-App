@@ -3235,7 +3235,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                 _model.textController6.text,
                                 _model.textController7.text,
                                 _model.textController8.text,
-                                FFAppState().joystickmap.lastOrNull,
+                                _model.textController9.text,
                               );
                               _model.buttons = await actions.updateStringList9(
                                 FFAppState().buttons.toList(),
