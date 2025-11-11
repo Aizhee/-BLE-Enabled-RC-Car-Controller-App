@@ -17,8 +17,9 @@ Future<List<BTDeviceStruct>> getConnectedDevices() async {
   final List<BTDeviceStruct> deviceList = [];
 
   // ----------------------------------------
-  // BLE CONNECTED DEVICES
+  // 1. GET BLE CONNECTED DEVICES
   // ----------------------------------------
+  final Set<String> bleDeviceIds = {};
   final List<ble.BluetoothDevice> bleConnected =
       ble.FlutterBluePlus.connectedDevices;
 
@@ -29,27 +30,44 @@ Future<List<BTDeviceStruct>> getConnectedDevices() async {
     deviceList.add(
       BTDeviceStruct(
         id: id,
-        name: name,
+        // ---- MODIFIED LINE ----
+        name: '$name (BLE)', // Appending label to the name
         type: 'BLE',
       ),
     );
+    bleDeviceIds.add(id);
   }
 
   // ----------------------------------------
-  // BT2.0 BONDED DEVICES
+  // 2. GET BT2.0 CONNECTED DEVICES
   // ----------------------------------------
   try {
-    List<bt.BluetoothDevice> classicBonded =
+    final List<bt.BluetoothDevice> classicBonded =
         await bt.FlutterBluetoothSerial.instance.getBondedDevices();
+    final Map<String, String> bondedDeviceNames = {
+      for (var d in classicBonded) d.address: d.name ?? 'Unknown'
+    };
 
-    for (final d in classicBonded) {
-      deviceList.add(
-        BTDeviceStruct(
-          id: d.address,
-          name: d.name ?? 'Unknown',
-          type: 'BT2.0',
-        ),
-      );
+    // Iterate over the connections you are actively managing
+    for (final String deviceId in btConnections.keys) {
+      final bt.BluetoothConnection? connection = btConnections[deviceId];
+
+      if (connection != null && connection.isConnected) {
+        // Prioritization: Skip if we already have this device as BLE
+        if (bleDeviceIds.contains(deviceId)) {
+          continue;
+        }
+
+        final name = bondedDeviceNames[deviceId] ?? 'Unknown';
+        deviceList.add(
+          BTDeviceStruct(
+            id: deviceId,
+            // ---- MODIFIED LINE ----
+            name: '$name (BT2.0)', // Appending label to the name
+            type: 'BT2.0',
+          ),
+        );
+      }
     }
   } catch (e) {
     debugPrint("BT2.0 read error: $e");

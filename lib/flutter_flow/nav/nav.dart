@@ -43,12 +43,32 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) => SplashPageWidget(),
+      errorBuilder: (context, state) => appStateNotifier.showSplashImage
+          ? Builder(
+              builder: (context) => Container(
+                color: FlutterFlowTheme.of(context).secondaryBackground,
+                child: Image.asset(
+                  'assets/images/Gemini_Generated_Image_dney5edney5edney-removebg-preview.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            )
+          : SplashPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => SplashPageWidget(),
+          builder: (context, _) => appStateNotifier.showSplashImage
+              ? Builder(
+                  builder: (context) => Container(
+                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                    child: Image.asset(
+                      'assets/images/Gemini_Generated_Image_dney5edney5edney-removebg-preview.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                )
+              : SplashPageWidget(),
         ),
         FFRoute(
           name: HomePageWidget.routeName,
@@ -86,6 +106,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.bool,
             ),
           ),
+        ),
+        FFRoute(
+          name: SettingsWidget.routeName,
+          path: SettingsWidget.routePath,
+          builder: (context, params) => SettingsWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

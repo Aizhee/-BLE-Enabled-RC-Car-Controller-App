@@ -121,7 +121,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
           backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
           automaticallyImplyLeading: false,
           title: Text(
-            'Bluetooth RC Controller',
+            'Bluetooth Low Energy RC Controller',
             style: FlutterFlowTheme.of(context).titleLarge.override(
                   font: GoogleFonts.montserrat(
                     fontWeight:
@@ -129,6 +129,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                     fontStyle:
                         FlutterFlowTheme.of(context).titleLarge.fontStyle,
                   ),
+                  fontSize: 17.0,
                   letterSpacing: 0.0,
                   fontWeight:
                       FlutterFlowTheme.of(context).titleLarge.fontWeight,
@@ -145,6 +146,45 @@ class _HomePageWidgetState extends State<HomePageWidget>
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Align(
+                        alignment: AlignmentDirectional(0.0, 0.0),
+                        child: Text(
+                          'Made with ❤️ by Aizhee',
+                          style: FlutterFlowTheme.of(context)
+                              .bodyLarge
+                              .override(
+                                font: GoogleFonts.montserrat(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyLarge
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyLarge
+                                      .fontStyle,
+                                ),
+                                color:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                fontSize: 12.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .bodyLarge
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyLarge
+                                    .fontStyle,
+                              ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -928,59 +968,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 12.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      if (!widget!.isBTEnabled)
-                                        Expanded(
-                                          child: Align(
-                                            alignment:
-                                                AlignmentDirectional(0.0, 0.0),
-                                            child: Text(
-                                              'Made with ❤️ by Aizhee',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyLarge
-                                                  .override(
-                                                    font:
-                                                        GoogleFonts.montserrat(
-                                                      fontWeight:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyLarge
-                                                              .fontWeight,
-                                                      fontStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyLarge
-                                                              .fontStyle,
-                                                    ),
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                    fontSize: 12.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyLarge
-                                                            .fontWeight,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyLarge
-                                                            .fontStyle,
-                                                  ),
-                                            ),
-                                          ),
-                                        ),
-                                    ],
                                   ),
                                 ),
                               ],

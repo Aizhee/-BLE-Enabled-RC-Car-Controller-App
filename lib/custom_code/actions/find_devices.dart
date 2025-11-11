@@ -9,59 +9,42 @@ import 'package:flutter/material.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 Future<List<BTDeviceStruct>> findDevices() async {
   List<BTDeviceStruct> devices = [];
-
   try {
-    // -----------------------------
-    // BLE SCAN (FlutterBluePlus)
-    // -----------------------------
-    var bleSubscription = FlutterBluePlus.scanResults.listen((results) {
-      for (var r in results) {
-        if (r.device.platformName.isNotEmpty) {
-          devices.add(
-            BTDeviceStruct(
-              name: r.device.platformName,
-              id: r.device.remoteId.toString(),
-              rssi: r.rssi,
-            ),
-          );
+    var subscription = FlutterBluePlus.scanResults.listen(
+      (results) {
+        print("update");
+        List<ScanResult> scannedDevices = [];
+        for (ScanResult r in results) {
+          if (r.device.platformName.isNotEmpty) {
+            scannedDevices.add(r);
+          }
         }
-      }
-    });
-
-    await FlutterBluePlus.adapterState
-        .where((s) => s == BluetoothAdapterState.on)
-        .first;
-
-    await FlutterBluePlus.startScan(
-      timeout: const Duration(seconds: 3),
-      androidUsesFineLocation: true,
+        devices.clear();
+        scannedDevices.forEach((deviceResult) {
+          devices.add(BTDeviceStruct(
+            name: deviceResult.device.platformName,
+            id: deviceResult.device.remoteId.toString(),
+            rssi: 0,
+          ));
+        });
+      },
+      onError: (e) => print(e),
     );
+    // cleanup: cancel subscription when scanning stops
+    //FlutterBluePlus.cancelWhenScanComplete(subscription);
+    await FlutterBluePlus.adapterState
+        .where((val) => val == BluetoothAdapterState.on)
+        .first;
+    await FlutterBluePlus.startScan(
+        timeout: const Duration(seconds: 3), androidUsesFineLocation: true);
 
-    await FlutterBluePlus.isScanning.where((v) => v == false).first;
-    //FlutterBluePlus.cancelWhenScanComplete(bleSubscription);
-
-    // -----------------------------
-    // BT 2.0 SCAN (flutter_bluetooth_serial)
-    // -----------------------------
-    List<BluetoothDiscoveryResult> classicScan =
-        await FlutterBluetoothSerial.instance.startDiscovery().toList();
-
-    for (var r in classicScan) {
-      devices.add(
-        BTDeviceStruct(
-          name: r.device.name ?? "Unknown",
-          id: r.device.address,
-          rssi: r.rssi ?? 0,
-        ),
-      );
-    }
+    // wait for scanning to stop
+    await FlutterBluePlus.isScanning.where((val) => val == false).first;
   } catch (e) {
     debugPrint(e.toString());
   }
-
   return devices;
 }

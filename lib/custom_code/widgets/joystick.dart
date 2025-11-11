@@ -15,20 +15,33 @@ class Joystick extends StatefulWidget {
     Key? key,
     this.width,
     this.height,
-    this.size = 100, // This is your custom widget's parameter
+    this.size = 300,
     this.device,
+    this.onMove,
+    this.joystickMap,
   }) : super(key: key);
 
   final double? width;
   final double? height;
   final double size;
   final BTDeviceStruct? device;
+  final Future<dynamic> Function(String)? onMove;
+  final List<String>? joystickMap;
 
   @override
   _JoystickState createState() => _JoystickState();
 }
 
 class _JoystickState extends State<Joystick> {
+  // Helper function to safely get commands from the map
+  String _getCommand(int index) {
+    // Checks if the map is valid and long enough
+    if (widget.joystickMap != null && widget.joystickMap!.length > index) {
+      return widget.joystickMap![index];
+    }
+    return ""; // Return empty string if map isn't set up
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,49 +49,65 @@ class _JoystickState extends State<Joystick> {
       height: widget.height,
       alignment: Alignment.center,
       child: Joysticks.Joystick(
-          // This is the package's Joystick
-          base: Joysticks.JoystickBase(
-            decoration: Joysticks.JoystickBaseDecoration(
-              color: Colors.black,
-              drawOuterCircle: false,
-            ),
-            arrowsDecoration: Joysticks.JoystickArrowsDecoration(
-              color: Colors.blue,
-            ),
+        base: Joysticks.JoystickBase(
+          size: 300,
+          decoration: Joysticks.JoystickBaseDecoration(
+            color: Colors.black,
+            drawOuterCircle: false,
           ),
-          listener: (details) async {
-            if (widget.device == null) return;
+          arrowsDecoration: Joysticks.JoystickArrowsDecoration(
+            color: Colors.blue,
+          ),
+        ),
 
-            String command = '';
-            final x = details.x;
-            final y = details.y;
+        // ---- LISTENER LOGIC UPDATED TO MATCH YOUR MAP ----
+        listener: (details) {
+          if (widget.device == null || widget.onMove == null) return;
 
-            // Main directions
-            if (x.abs() < 0.3 && y < -0.3) {
-              command = 'F'; // Forward
-            } else if (x.abs() < 0.3 && y > 0.3) {
-              command = 'B'; // Backward
-            } else if (x < -0.3 && y.abs() < 0.3) {
-              command = 'L'; // Left
-            } else if (x > 0.3 && y.abs() < 0.3) {
-              command = 'R'; // Right
-            }
-            // Diagonal directions
-            else if (x < -0.3 && y < -0.3) {
-              command = 'Q'; // Top-left
-            } else if (x > 0.3 && y < -0.3) {
-              command = 'E'; // Top-right
-            } else if (x < -0.3 && y > 0.3) {
-              command = 'Z'; // Bottom-left
-            } else if (x > 0.3 && y > 0.3) {
-              command = 'C'; // Bottom-right
-            }
+          final x = details.x;
+          final y = details.y;
 
-            if (command.isNotEmpty) {
-              // Ensure sendData is imported and working
-              await sendData(widget.device!, command);
-            }
-          }),
+          String finalCommand = "";
+          String _lastCommand = "";
+
+          // Your map: F,B,R,L,Q,E,Z,C,S
+          // This logic now matches that order.
+
+          // Main directions
+          if (x.abs() < 0.3 && y < -0.3) {
+            finalCommand = _getCommand(0); // F (Forward)
+          } else if (x.abs() < 0.3 && y > 0.3) {
+            finalCommand = _getCommand(1); // B (Backward)
+          } else if (x > 0.3 && y.abs() < 0.3) {
+            finalCommand = _getCommand(2); // R (Right)
+          } else if (x < -0.3 && y.abs() < 0.3) {
+            finalCommand = _getCommand(3); // L (Left)
+          }
+          // Diagonal directions
+          else if (x < -0.3 && y < -0.3) {
+            finalCommand = _getCommand(4); // Q (Forward-Left)
+          } else if (x > 0.3 && y < -0.3) {
+            finalCommand = _getCommand(5); // E (Forward-Right)
+          } else if (x < -0.3 && y > 0.3) {
+            finalCommand = _getCommand(6); // Z (Backward-Left)
+          } else if (x > 0.3 && y > 0.3) {
+            finalCommand = _getCommand(7); // C (Backward-Right)
+          }
+          // ---- "STOP" COMMAND ADDED BACK ----
+          else {
+            // This is the centered/deadzone position
+            finalCommand = _getCommand(8); // S (Stop)
+          }
+
+          // This sends the mapped command (e.g., "move_forward" or "stop_motor")
+          // or nothing if the command string in your map is empty.
+          // Send only when command changes
+          if (finalCommand.isNotEmpty && finalCommand != _lastCommand) {
+            _lastCommand = finalCommand;
+            widget.onMove!(finalCommand);
+          }
+        },
+      ),
     );
   }
 }
