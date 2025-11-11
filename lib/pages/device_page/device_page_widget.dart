@@ -9,6 +9,7 @@ import '/widgets/strength_indicator/strength_indicator_widget.dart';
 import 'dart:ui';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -84,6 +85,8 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -184,6 +187,23 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
+                  Padding(
+                    padding: EdgeInsets.all(6.0),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.pushNamed(SettingsWidget.routeName);
+                      },
+                      child: Icon(
+                        Icons.settings_sharp,
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
                   FlutterFlowIconButton(
                     borderColor: Colors.transparent,
                     borderRadius: 20.0,
@@ -226,13 +246,19 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
                       child: Container(
-                        width: 300.0,
-                        height: 300.0,
+                        width: 350.0,
+                        height: 350.0,
                         child: custom_widgets.Joystick(
-                          width: 300.0,
-                          height: 300.0,
+                          width: 350.0,
+                          height: 350.0,
                           size: 200.0,
                           device: BTDeviceStruct(),
+                          onMove: (command) async {
+                            await actions.sendData(
+                              BTDeviceStruct(),
+                              command!,
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -244,34 +270,25 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
-                            },
-                            text: 'Button',
-                            options: FFButtonOptions(
-                              height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 0.0, 16.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 0.0),
-                              color: FlutterFlowTheme.of(context).primary,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    font: GoogleFonts.montserrat(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.white,
-                                    fontSize: 13.0,
-                                    letterSpacing: 0.0,
+                        FFButtonWidget(
+                          onPressed: () async {
+                            await actions.sendData(
+                              BTDeviceStruct(),
+                              FFAppState().buttons.elementAtOrNull(0)!,
+                            );
+                          },
+                          text: '      B1     ',
+                          options: FFButtonOptions(
+                            height: 40.0,
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                12.0, 0.0, 12.0, 0.0),
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            color: FlutterFlowTheme.of(context).primary,
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  font: GoogleFonts.montserrat(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .fontWeight,
@@ -279,39 +296,39 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                                         .titleSmall
                                         .fontStyle,
                                   ),
-                              elevation: 0.0,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
+                                  color: Colors.white,
+                                  fontSize: 13.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                            elevation: 0.0,
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
-                            },
-                            text: 'Button',
-                            options: FFButtonOptions(
-                              height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 0.0, 16.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 0.0),
-                              color: FlutterFlowTheme.of(context).primary,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    font: GoogleFonts.montserrat(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.white,
-                                    fontSize: 13.0,
-                                    letterSpacing: 0.0,
+                        FFButtonWidget(
+                          onPressed: () async {
+                            await actions.sendData(
+                              BTDeviceStruct(),
+                              FFAppState().buttons.elementAtOrNull(1)!,
+                            );
+                          },
+                          text: '       B2     ',
+                          options: FFButtonOptions(
+                            height: 40.0,
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                12.0, 0.0, 12.0, 0.0),
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            color: FlutterFlowTheme.of(context).primary,
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  font: GoogleFonts.montserrat(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .fontWeight,
@@ -319,39 +336,39 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                                         .titleSmall
                                         .fontStyle,
                                   ),
-                              elevation: 0.0,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
+                                  color: Colors.white,
+                                  fontSize: 13.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                            elevation: 0.0,
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
-                            },
-                            text: 'Button',
-                            options: FFButtonOptions(
-                              height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 0.0, 16.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 0.0),
-                              color: FlutterFlowTheme.of(context).primary,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    font: GoogleFonts.montserrat(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.white,
-                                    fontSize: 13.0,
-                                    letterSpacing: 0.0,
+                        FFButtonWidget(
+                          onPressed: () async {
+                            await actions.sendData(
+                              BTDeviceStruct(),
+                              FFAppState().buttons.elementAtOrNull(2)!,
+                            );
+                          },
+                          text: '      B3     ',
+                          options: FFButtonOptions(
+                            height: 40.0,
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                12.0, 0.0, 12.0, 0.0),
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            color: FlutterFlowTheme.of(context).primary,
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  font: GoogleFonts.montserrat(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .fontWeight,
@@ -359,39 +376,39 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                                         .titleSmall
                                         .fontStyle,
                                   ),
-                              elevation: 0.0,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
+                                  color: Colors.white,
+                                  fontSize: 13.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                            elevation: 0.0,
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
-                            },
-                            text: 'Button',
-                            options: FFButtonOptions(
-                              height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 0.0, 16.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 0.0),
-                              color: FlutterFlowTheme.of(context).primary,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    font: GoogleFonts.montserrat(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .fontStyle,
-                                    ),
-                                    color: Colors.white,
-                                    fontSize: 13.0,
-                                    letterSpacing: 0.0,
+                        FFButtonWidget(
+                          onPressed: () async {
+                            await actions.sendData(
+                              BTDeviceStruct(),
+                              FFAppState().buttons.elementAtOrNull(3)!,
+                            );
+                          },
+                          text: '      B4     ',
+                          options: FFButtonOptions(
+                            height: 40.0,
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                12.0, 0.0, 12.0, 0.0),
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            color: FlutterFlowTheme.of(context).primary,
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  font: GoogleFonts.montserrat(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .fontWeight,
@@ -399,35 +416,164 @@ class _DevicePageWidgetState extends State<DevicePageWidget> {
                                         .titleSmall
                                         .fontStyle,
                                   ),
-                              elevation: 0.0,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
+                                  color: Colors.white,
+                                  fontSize: 13.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                            elevation: 0.0,
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                      ],
+                      ].divide(SizedBox(width: 10.0)),
                     ),
                   ),
-                  Slider(
-                    activeColor: FlutterFlowTheme.of(context).primary,
-                    inactiveColor: FlutterFlowTheme.of(context).alternate,
-                    min: 0.0,
-                    max: 10.0,
-                    value: _model.sliderValue1 ??= 5.0,
-                    onChanged: (newValue) {
-                      newValue = double.parse(newValue.toStringAsFixed(2));
-                      safeSetState(() => _model.sliderValue1 = newValue);
-                    },
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 2.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'S1',
+                          style:
+                              FlutterFlowTheme.of(context).labelMedium.override(
+                                    font: GoogleFonts.montserrat(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
+                                    lineHeight: 1.4,
+                                  ),
+                        ),
+                      ].divide(SizedBox(width: 10.0)),
+                    ),
                   ),
-                  Slider(
-                    activeColor: FlutterFlowTheme.of(context).primary,
-                    inactiveColor: FlutterFlowTheme.of(context).alternate,
-                    min: 0.0,
-                    max: 10.0,
-                    value: _model.sliderValue2 ??= 5.0,
-                    onChanged: (newValue) {
-                      newValue = double.parse(newValue.toStringAsFixed(2));
-                      safeSetState(() => _model.sliderValue2 = newValue);
-                    },
+                  Align(
+                    alignment: AlignmentDirectional(-0.97, 0.25),
+                    child: SliderTheme(
+                      data: SliderThemeData(
+                        showValueIndicator: ShowValueIndicator.always,
+                      ),
+                      child: Slider(
+                        activeColor: FlutterFlowTheme.of(context).primary,
+                        inactiveColor: FlutterFlowTheme.of(context).alternate,
+                        min: valueOrDefault<double>(
+                          FFAppState()
+                              .slidervals
+                              .elementAtOrNull(0)
+                              ?.toDouble(),
+                          0.0,
+                        ),
+                        max: valueOrDefault<double>(
+                          FFAppState()
+                              .slidervals
+                              .elementAtOrNull(1)
+                              ?.toDouble(),
+                          180.0,
+                        ),
+                        value: _model.sliderValue1 ??= 0.0,
+                        label: _model.sliderValue1?.toStringAsFixed(2),
+                        onChanged: (newValue) async {
+                          newValue = double.parse(newValue.toStringAsFixed(2));
+                          safeSetState(() => _model.sliderValue1 = newValue);
+                          await actions.sendData(
+                            BTDeviceStruct(),
+                            '${FFAppState().slidersbits.elementAtOrNull(0)}${formatNumber(
+                              _model.sliderValue1,
+                              formatType: FormatType.custom,
+                              format: '0',
+                              locale: '',
+                            )}${FFAppState().slidersbits.elementAtOrNull(1)}',
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'S2',
+                        style:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  font: GoogleFonts.montserrat(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
+                                  ),
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontStyle,
+                                  lineHeight: 1.4,
+                                ),
+                      ),
+                    ].divide(SizedBox(width: 1.0)),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
+                    child: SliderTheme(
+                      data: SliderThemeData(
+                        showValueIndicator: ShowValueIndicator.always,
+                      ),
+                      child: Slider(
+                        activeColor: FlutterFlowTheme.of(context).primary,
+                        inactiveColor: FlutterFlowTheme.of(context).alternate,
+                        min: valueOrDefault<double>(
+                          FFAppState()
+                              .slidervals
+                              .elementAtOrNull(2)
+                              ?.toDouble(),
+                          0.0,
+                        ),
+                        max: valueOrDefault<double>(
+                          FFAppState()
+                              .slidervals
+                              .elementAtOrNull(3)
+                              ?.toDouble(),
+                          360.0,
+                        ),
+                        value: _model.sliderValue2 ??= 0.0,
+                        label: _model.sliderValue2?.toStringAsFixed(2),
+                        onChanged: (newValue) async {
+                          newValue = double.parse(newValue.toStringAsFixed(2));
+                          safeSetState(() => _model.sliderValue2 = newValue);
+                          await actions.sendData(
+                            BTDeviceStruct(),
+                            '${FFAppState().slidersbits.elementAtOrNull(2)}${formatNumber(
+                              _model.sliderValue1,
+                              formatType: FormatType.custom,
+                              format: '0',
+                              locale: '',
+                            )}${FFAppState().slidersbits.elementAtOrNull(3)}',
+                          );
+                        },
+                      ),
+                    ),
                   ),
                   Divider(
                     thickness: 2.0,

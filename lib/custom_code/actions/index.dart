@@ -6,3 +6,5 @@ export 'get_rssi.dart' show getRssi;
 export 'is_bluetooth_enabled.dart' show isBluetoothEnabled;
 export 'receive_data.dart' show receiveData;
 export 'send_data.dart' show sendData;
+export 'update_string_list8.dart' show updateStringList8;
+export 'update_int_list4.dart' show updateIntList4;

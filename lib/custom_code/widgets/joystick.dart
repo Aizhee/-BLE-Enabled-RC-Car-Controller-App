@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+// Note: You must add the dependency 'flutter_joystick: ^0.0.3' in pubspec.yaml
 import 'package:flutter_joystick/flutter_joystick.dart' as Joysticks;
 
 class Joystick extends StatefulWidget {
@@ -15,8 +16,9 @@ class Joystick extends StatefulWidget {
     Key? key,
     this.width,
     this.height,
-    this.size = 100, // This is your custom widget's parameter
-    this.device,
+    this.size = 100,
+    this.device, // Your device parameter
+    this.onMove, // ---- ADD THIS PARAMETER ----
   }) : super(key: key);
 
   final double? width;
@@ -24,11 +26,16 @@ class Joystick extends StatefulWidget {
   final double size;
   final BTDeviceStruct? device;
 
+  // Define the Action parameter. It will pass a String (the command).
+  final Future<dynamic> Function(String)? onMove;
+
   @override
   _JoystickState createState() => _JoystickState();
 }
 
 class _JoystickState extends State<Joystick> {
+  String _lastCommand = ''; // Add this to prevent spamming
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,49 +43,56 @@ class _JoystickState extends State<Joystick> {
       height: widget.height,
       alignment: Alignment.center,
       child: Joysticks.Joystick(
-          // This is the package's Joystick
-          base: Joysticks.JoystickBase(
-            decoration: Joysticks.JoystickBaseDecoration(
-              color: Colors.black,
-              drawOuterCircle: false,
-            ),
-            arrowsDecoration: Joysticks.JoystickArrowsDecoration(
-              color: Colors.blue,
-            ),
+        base: Joysticks.JoystickBase(
+          decoration: Joysticks.JoystickBaseDecoration(
+            color: Colors.black,
+            drawOuterCircle: false,
           ),
-          listener: (details) async {
-            if (widget.device == null) return;
+          arrowsDecoration: Joysticks.JoystickArrowsDecoration(
+            color: Colors.blue,
+          ),
+        ),
+        // ---- THIS LISTENER IS MODIFIED ----
+        listener: (details) {
+          if (widget.device == null) return;
 
-            String command = '';
-            final x = details.x;
-            final y = details.y;
+          String command = '';
+          final x = details.x;
+          final y = details.y;
 
-            // Main directions
-            if (x.abs() < 0.3 && y < -0.3) {
-              command = 'F'; // Forward
-            } else if (x.abs() < 0.3 && y > 0.3) {
-              command = 'B'; // Backward
-            } else if (x < -0.3 && y.abs() < 0.3) {
-              command = 'L'; // Left
-            } else if (x > 0.3 && y.abs() < 0.3) {
-              command = 'R'; // Right
-            }
-            // Diagonal directions
-            else if (x < -0.3 && y < -0.3) {
-              command = 'Q'; // Top-left
-            } else if (x > 0.3 && y < -0.3) {
-              command = 'E'; // Top-right
-            } else if (x < -0.3 && y > 0.3) {
-              command = 'Z'; // Bottom-left
-            } else if (x > 0.3 && y > 0.3) {
-              command = 'C'; // Bottom-right
-            }
+          // Main directions
+          if (x.abs() < 0.3 && y < -0.3) {
+            command = 'F';
+          } else if (x.abs() < 0.3 && y > 0.3) {
+            command = 'B';
+          } else if (x < -0.3 && y.abs() < 0.3) {
+            command = 'L';
+          } else if (x > 0.3 && y.abs() < 0.3) {
+            command = 'R';
+          }
+          // Diagonal directions
+          else if (x < -0.3 && y < -0.3) {
+            command = 'Q';
+          } else if (x > 0.3 && y < -0.3) {
+            command = 'E';
+          } else if (x < -0.3 && y > 0.3) {
+            command = 'Z';
+          } else if (x > 0.3 && y > 0.3) {
+            command = 'C';
+          }
 
-            if (command.isNotEmpty) {
-              // Ensure sendData is imported and working
-              await sendData(widget.device!, command);
+          // If the command is new and not empty
+          if (command.isNotEmpty && command != _lastCommand) {
+            _lastCommand = command; // Save the last command
+
+            // Check if the 'onMove' action is assigned
+            if (widget.onMove != null) {
+              // Execute the action and pass the 'command' string
+              widget.onMove!(command);
             }
-          }),
+          }
+        },
+      ),
     );
   }
 }

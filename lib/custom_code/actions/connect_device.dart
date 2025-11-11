@@ -13,7 +13,7 @@ Future<bool> connectDevice(BTDeviceStruct deviceInfo) async {
   final device = BluetoothDevice.fromId(deviceInfo.id);
   var hasWriteCharacteristic = false;
   try {
-    await device.connect();
+    await device.connect(license: License.free);
     final services = await device.discoverServices();
     for (BluetoothService service in services) {
       for (BluetoothCharacteristic characteristic in service.characteristics) {
