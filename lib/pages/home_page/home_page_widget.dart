@@ -121,7 +121,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
           backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
           automaticallyImplyLeading: false,
           title: Text(
-            'Bluetooth RC Controller',
+            'Bluetooth Low Energy RC Controller',
             style: FlutterFlowTheme.of(context).titleLarge.override(
                   font: GoogleFonts.montserrat(
                     fontWeight:
@@ -129,6 +129,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                     fontStyle:
                         FlutterFlowTheme.of(context).titleLarge.fontStyle,
                   ),
+                  fontSize: 17.0,
                   letterSpacing: 0.0,
                   fontWeight:
                       FlutterFlowTheme.of(context).titleLarge.fontWeight,

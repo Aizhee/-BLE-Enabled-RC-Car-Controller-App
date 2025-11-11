@@ -37,16 +37,19 @@ class _SplashPageWidgetState extends State<SplashPageWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await requestPermission(bluetoothPermission);
       _model.bluetoothEnabled = await actions.isBluetoothEnabled();
-
-      context.goNamed(
-        HomePageWidget.routeName,
-        queryParameters: {
-          'isBTEnabled': serializeParam(
-            _model.bluetoothEnabled,
-            ParamType.bool,
-          ),
-        }.withoutNulls,
-      );
+      if (_model.bluetoothEnabled == true) {
+        context.goNamed(
+          HomePageWidget.routeName,
+          queryParameters: {
+            'isBTEnabled': serializeParam(
+              _model.bluetoothEnabled,
+              ParamType.bool,
+            ),
+          }.withoutNulls,
+        );
+      } else {
+        return;
+      }
     });
   }
 

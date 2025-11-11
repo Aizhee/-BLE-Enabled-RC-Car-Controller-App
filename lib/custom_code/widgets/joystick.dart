@@ -66,7 +66,9 @@ class _JoystickState extends State<Joystick> {
 
           final x = details.x;
           final y = details.y;
+
           String finalCommand = "";
+          String _lastCommand = "";
 
           // Your map: F,B,R,L,Q,E,Z,C,S
           // This logic now matches that order.
@@ -99,7 +101,9 @@ class _JoystickState extends State<Joystick> {
 
           // This sends the mapped command (e.g., "move_forward" or "stop_motor")
           // or nothing if the command string in your map is empty.
-          if (finalCommand.isNotEmpty) {
+          // Send only when command changes
+          if (finalCommand.isNotEmpty && finalCommand != _lastCommand) {
+            _lastCommand = finalCommand;
             widget.onMove!(finalCommand);
           }
         },
